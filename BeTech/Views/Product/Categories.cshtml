@@ -1,0 +1,32 @@
+﻿@model IEnumerable<ProductCategory>
+    <div class="col-12">
+        <form class="d-inline-block col-6" asp-controller="Product" asp-action="Categories" method="get">
+            <input type="text" name="SearchString" placeholder="Поиск по категориям" />
+            <input type="submit" value="Поиск" class="mr-2" />
+            <input type="submit" value="Показать все" class="mr-2" asp-all-route-data="@null" />
+        </form>
+        <a class="btn btn-secondary float-right" asp-action="AddCategory" asp-controller="Product">Добавить</a>
+    </div>
+
+    <table class="table-bordered table-striped mt-3">
+        <thead class="text-center">
+            <tr>
+                <th>Название</th>
+                <th>Кол-во товаров</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var category in Model)
+            {
+                <tr>
+                    <td>@category.CategoryName</td>
+                    <td class="text-right">@category.Products.Count()</td>
+                    <td class="text-center">
+                        <a class="btn btn-secondary" asp-action="EditCategory" asp-controller="Product" asp-route-categoryId="@category.CategoryId">Изменить</a>
+                        <a class="btn btn-danger" asp-action="DeleteCategory" asp-controller="Product" asp-route-categoryId="@category.CategoryId">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

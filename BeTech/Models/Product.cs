@@ -26,9 +26,9 @@ namespace BeTech.Models
         [ForeignKey("CategoryId")]
         public ProductCategory Category { get; set; }
 
-        public CurrencyTypes CurrencyType { get; set; }
+        public int CurrencyId { get; set; }
 
-        [ForeignKey("CurrencyType")]
+        [ForeignKey("CurrencyId")]
         public Currency Currency { get; set; }
 
         [Required]
@@ -36,5 +36,6 @@ namespace BeTech.Models
         public string Barcode { get; set; }
 
         public List<StockProduct> StockProduct { get; set; }
+
     }
 }

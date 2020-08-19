@@ -11,12 +11,11 @@ namespace BeTech.Models
     {
         public Currency()
         {
-            IsBaseCurrency = false;
+            IsBaseCurrencyType = false;
         }
 
 
-        [Key]
-        public CurrencyTypes CurrencyType { get; set; }
+        public int CurrencyId { get; set; }
 
         [MaxLength(4)]
         public string Code { get; set; }
@@ -25,15 +24,8 @@ namespace BeTech.Models
         public decimal Rate { get; set; }
 
         public DateTime UpdateTime { get; set; }
-        public bool IsBaseCurrency { get; set; }
+        public bool IsBaseCurrencyType { get; set; }
 
-    }
-
-    public enum CurrencyTypes
-    {
-        USD,
-        EURO,
-        UAH
     }
 
 }

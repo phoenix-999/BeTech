@@ -1,5 +1,6 @@
 ﻿using BeTech.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace BeTech.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             :base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
 
@@ -28,6 +29,7 @@ namespace BeTech.Data
         {
             modelBuilder.Entity<Currency>(CurrencyConfig);
             modelBuilder.Entity<StockProduct>(StockProductConfig);
+            modelBuilder.Entity<Product>(ProductConfig);
         }
 
 
@@ -37,23 +39,23 @@ namespace BeTech.Data
             {
                 new Currency
                 {
-                    CurrencyType = CurrencyTypes.USD,
-                    Code = CurrencyTypes.USD.ToString(),
+                    CurrencyId = 1,
+                    Code = "USD",
                     Rate = 1,
                     UpdateTime = DateTime.Now,
-                    IsBaseCurrency = true
+                    IsBaseCurrencyType = true
                 },
                 new Currency
                 {
-                    CurrencyType = CurrencyTypes.EURO,
-                    Code = CurrencyTypes.EURO.ToString(),
+                    CurrencyId = 2,
+                    Code = "EURO",
                     Rate = 1,
                     UpdateTime = DateTime.Now
                 },
                 new Currency
                 {
-                    CurrencyType = CurrencyTypes.UAH,
-                    Code = CurrencyTypes.UAH.ToString(),
+                    CurrencyId = 3,
+                    Code = "UAH",
                     Rate = 1,
                     UpdateTime = DateTime.Now
                 }
@@ -76,23 +78,11 @@ namespace BeTech.Data
                 .WithMany(s => s.StockProduct)
                 .HasForeignKey(sp => sp.StockId);
         }
-    
+
 
         protected virtual void ProductConfig(EntityTypeBuilder<Product> builder)
         {
-            //string createTriggerSqlCommand = @"
-            //    create trigger TR_Table__AU on [Products] after update as
-            //    if exists(
-            //      select 1 
-            //      from inserted i
-            //      join deleted d on d.doc_id=i.doc_id -- по первичному ключу Table
-            //      where datediff(day,i.date_doc,getdate())>1 -- сутки без учета времени
-            //        and i.Quantity1 != isnull(d.Quantity1,0) -- изменено количество
-            //      )
-            //    rollback tran;
-            //    GO
-            //";
-            //Database.ExecuteSqlRaw(createTriggerSqlCommand);
+            builder.Property(p => p.Barcode).Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
         }
     }
 }
