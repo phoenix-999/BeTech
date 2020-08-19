@@ -4,11 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BeTech.ViewModels
+namespace BeTech.ViewModels.StockModels
 {
-    public class NewProductCategoryViewModel
+    public class DeleteStockViewModel
     {
         [Required]
-        public string CategoryName { get; set; }
+        public int StockId { get; set; }
+
+        public string StockName { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿@model DeleteProductCategoryViewModel
-    <h3>Вы уверены, что хотите удалить категорию товаров @Model.CategoryName</h3>
+    <h3>Вы уверены, что хотите удалить категорию товаров "@Model.CategoryName"</h3>
 <form asp-action="DeleteCategory" asp-controller="Product" method="post">
     <input type="hidden" asp-for="@Model.CategoryId" />
     <input type="submit" value="Да" class="btn btn-danger" />

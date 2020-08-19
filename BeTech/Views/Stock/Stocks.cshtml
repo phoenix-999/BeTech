@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Stock>
+    <h3>Склады</h3>
+<div class="col-12">
+    <form class="d-inline-block col-6" asp-controller="Stock" asp-action="Stocks" method="get">
+        <input type="text" name="SearchString" placeholder="Поиск по складам" />
+        <input type="submit" value="Поиск" class="mr-2" />
+        <input type="submit" value="Показать все" class="mr-2" asp-all-route-data="@null" />
+    </form>
+    <a class="btn btn-secondary float-right" asp-action="AddStock" asp-controller="Stock">Добавить</a>
+</div>
+
+<table class="table-bordered table-striped mt-3">
+    <thead class="text-center">
+        <tr>
+            <th>Название</th>
+            <th>Адрес</th>
+            <th>Кол-во товаров</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stock in Model)
+        {
+        <tr>
+            <td>@stock.StockName</td>
+            <td>@stock.Address</td>
+            <td class="text-right">@stock.StockProduct.Count()</td>
+            <td class="text-center">
+                <a class="btn btn-secondary" asp-action="EditStock" asp-controller="Stock" asp-route-stockId="@stock.StockId">Изменить</a>
+                <a class="btn btn-danger" asp-action="DeleteStock" asp-controller="Stock" asp-route-stockId="@stock.StockId">Удалить</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

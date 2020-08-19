@@ -17,6 +17,9 @@ namespace BeTech.Models
         [MaxLength(200)]
         public string Address { get; set; }
 
+        public bool Deleted { get; set; }
+
         public List<StockProduct> StockProduct { get; set; }
+
     }
 }

@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Product>
+<h3>Товары</h3>
+<div class="col-12">
+    <form class="d-inline-block col-6" asp-controller="Product" asp-action="Products" method="get">
+        <input type="text" name="SearchString" placeholder="Поиск по товарам" />
+        <input type="submit" value="Поиск" class="mr-2" />
+        <input type="submit" value="Показать все" class="mr-2" asp-all-route-data="@null" />
+    </form>
+    <a class="btn btn-secondary float-right" asp-action="AddProduct" asp-controller="Product">Добавить</a>
+</div>
+
+<table class="table-bordered table-striped mt-3">
+    <thead class="text-center">
+        <tr>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Цена</th>
+            <th>Валюта</th>
+            <th>Цена в базовой валюте, @ViewBag.BaseCurrency?.Code</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+        <tr>
+            <td>@product.ProductName</td>
+            <td>@product.Category.CategoryName</td>
+            <td class="text-right">@product.Price</td>
+            <td class="text-right">@product.Currency.Code</td>
+            <td class="text-right">@product.PriceInBaseCurrency</td>
+            <td class="text-center">
+                <a class="btn btn-secondary" asp-action="EditProduct" asp-controller="Product" asp-route-productId="@product.ProductId">Изменить</a>
+                <a class="btn btn-danger" asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@product.ProductId">Удалить</a>
+                <img src="data:image/png;base64, @Convert.ToBase64String(product.Barcode)" />
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

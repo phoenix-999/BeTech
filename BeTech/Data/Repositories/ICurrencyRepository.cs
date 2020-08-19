@@ -10,6 +10,7 @@ namespace BeTech.Data.Repositories
     public interface ICurrencyRepository
     {
         IQueryable<Currency> Currencies { get; }
+        Currency GetBaseCurrency();
     }
 
 
@@ -23,6 +24,12 @@ namespace BeTech.Data.Repositories
         }
 
         public IQueryable<Currency> Currencies => _context.Currencies.AsNoTracking();
+
+
+        public Currency GetBaseCurrency()
+        {
+            return _context.Currencies.AsNoTracking().Where(c => c.IsBaseCurrencyType).First();
+        }
     }
 
 }

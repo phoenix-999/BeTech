@@ -14,7 +14,7 @@ namespace BeTech.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             :base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
 
@@ -29,7 +29,6 @@ namespace BeTech.Data
         {
             modelBuilder.Entity<Currency>(CurrencyConfig);
             modelBuilder.Entity<StockProduct>(StockProductConfig);
-            modelBuilder.Entity<Product>(ProductConfig);
         }
 
 
@@ -43,6 +42,7 @@ namespace BeTech.Data
                     Code = "USD",
                     Rate = 1,
                     UpdateTime = DateTime.Now,
+                    Factor = 1,
                     IsBaseCurrencyType = true
                 },
                 new Currency
@@ -50,6 +50,7 @@ namespace BeTech.Data
                     CurrencyId = 2,
                     Code = "EURO",
                     Rate = 1,
+                    Factor = 1.1m,
                     UpdateTime = DateTime.Now
                 },
                 new Currency
@@ -57,6 +58,7 @@ namespace BeTech.Data
                     CurrencyId = 3,
                     Code = "UAH",
                     Rate = 1,
+                    Factor = 0.28m,
                     UpdateTime = DateTime.Now
                 }
             };
@@ -80,9 +82,5 @@ namespace BeTech.Data
         }
 
 
-        protected virtual void ProductConfig(EntityTypeBuilder<Product> builder)
-        {
-            builder.Property(p => p.Barcode).Metadata.SetBeforeSaveBehavior(PropertySaveBehavior.Ignore);
-        }
     }
 }

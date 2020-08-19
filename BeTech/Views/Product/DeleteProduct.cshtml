@@ -1,0 +1,8 @@
+﻿@model DeleteProductViewModel
+<h3>Вы уверены, что хотите удалить товар "@Model.ProductName"</h3>
+<form asp-action="DeleteProduct" asp-controller="Product" method="post">
+    <input type="hidden" asp-for="@Model.ProductId" />
+    <input type="submit" value="Да" class="btn btn-danger" />
+    <a class="btn btn-secondary" asp-action="Products" asp-controller="Product">Нет</a>
+</form>
+

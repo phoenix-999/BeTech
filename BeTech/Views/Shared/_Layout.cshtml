@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - BeTech</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-select/css/bootstrap-select.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap4-duallistbox/bootstrap-duallistbox.min.css">
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -18,7 +20,13 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item bg-primary">
+                        <li class="nav-item bg-primary m-1">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Stock" asp-action="Stocks">Склады</a>
+                        </li>
+                        <li class="nav-item bg-primary m-1">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Products">Товары</a>
+                        </li>
+                        <li class="nav-item bg-primary m-1">
                             <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Categories">Категории товаров</a>
                         </li>
                     </ul>
@@ -40,7 +48,9 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="~/lib/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
     @RenderSection("ScriptsDown", required: false)
-    @await Html.PartialAsync("_ValidationScriptsPartial"); 
+    @await Html.PartialAsync("_ValidationScriptsPartial");
 </body>
 </html>

@@ -1,0 +1,56 @@
+﻿@model NewProductViewModel
+<div class="col-6 m-auto">
+    <form asp-controller="Product" asp-action="AddProduct" method="post">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <div class="form-group mb-3 p-2">
+            <label asp-for="@Model.ProductName">Название</label>
+            <span class="text-danger" asp-validation-for="@Model.ProductName"></span>
+            <input asp-for="@Model.ProductName" class="form-control" />
+        </div>
+        <div class="form-group mb-3 p-2">
+            <label asp-for="@Model.Price">Цена</label>
+            <span class="text-danger" asp-validation-for="@Model.Price"></span>
+            <input asp-for="@Model.Price" type="text" class="form-control"/>
+        </div>
+        <div class="form-group mb-3 p-2">
+            <label asp-for="@Model.CurrencyId">Валюта</label>
+            <span class="text-danger" asp-validation-for="@Model.CurrencyId"></span>
+            @{
+                var currencySelectList = new SelectList(Model.Currencies.OrderByDescending(c => c.IsBaseCurrencyType), "CurrencyId", "Code");
+            }
+            <select asp-for="@Model.CurrencyId" asp-items="@currencySelectList" class="form-control"></select>
+        </div>
+        <div class="form-group mb-3 p-2">
+            <label asp-for="@Model.CategoryId">Категория</label>
+            <span class="text-danger" asp-validation-for="@Model.CategoryId"></span>
+            @{
+                var categorySelectList = new SelectList(Model.Categories, "CategoryId", "CategoryName");
+            }
+            <select asp-for="@Model.CategoryId" asp-items="@categorySelectList" class="form-control"></select>
+        </div>
+        <div class="form-group mb-3 p-2">
+            @*<label asp-for="@Model.SelectedStocks">Склады</label>
+        <span class="text-danger" asp-validation-for="@Model.SelectedStocks"></span>
+        @{
+            var stocksSelectList = new MultiSelectList(Model.Stocks, "StockId", "StockName");
+        }
+        <select asp-for="@Model.SelectedStocks" asp-items="@stocksSelectList" multiple class="form-control selectpicker" data-live-search="true"></select>*@
+            @{
+                var stocksSelectList = new MultiSelectList(Model.Stocks, "StockId", "StockName", Model.CurrentStocks);
+            }
+            <select class="duallistbox" multiple="multiple" asp-items="@stocksSelectList" asp-for="@Model.SelectedStocks">
+            </select>
+        </div>
+        <input type="submit" value="Добавить" class="btn btn-primary col-12" />
+    </form>
+</div>
+
+@section ScriptsDown
+{ 
+    <script type="text/javascript">
+        $(function () {
+            //Bootstrap Duallistbox
+            $('.duallistbox').bootstrapDualListbox()
+        })
+    </script>
+}

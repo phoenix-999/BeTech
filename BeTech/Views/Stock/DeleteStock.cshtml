@@ -1,0 +1,8 @@
+﻿@model DeleteStockViewModel
+
+<h3>Вы уверены, что хотите удалить склад "@Model.StockName"</h3>
+<form asp-action="DeleteStock" asp-controller="Stock" method="post">
+    <input type="hidden" asp-for="@Model.StockId" />
+    <input type="submit" value="Да" class="btn btn-danger" />
+    <a class="btn btn-secondary" asp-action="Stocks" asp-controller="Stock">Нет</a>
+</form>

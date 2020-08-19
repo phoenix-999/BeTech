@@ -23,6 +23,9 @@ namespace BeTech.Models
         [Column(TypeName = "money")]
         public decimal Rate { get; set; }
 
+        [Column(TypeName = "money")]
+        public decimal Factor { get; set; }
+
         public DateTime UpdateTime { get; set; }
         public bool IsBaseCurrencyType { get; set; }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -21,6 +22,8 @@ namespace BeTech.Models
         [Column(TypeName = "money")]
         public decimal Price { get; set; }
 
+        public bool Deleted { get; set; }
+
         public int CategoryId { get; set; }
 
         [ForeignKey("CategoryId")]
@@ -32,8 +35,7 @@ namespace BeTech.Models
         public Currency Currency { get; set; }
 
         [Required]
-        [MaxLength(8)]
-        public string Barcode { get; set; }
+        public byte[] Barcode { get; set; }
 
         public List<StockProduct> StockProduct { get; set; }
 

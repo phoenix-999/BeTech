@@ -10,8 +10,9 @@ namespace BeTech.Data.Repositories
     {
         public static void AddRepositories(this IServiceCollection services)
         {
-            services.AddTransient<IProductsRepository, ProductRepository>();
-            services.AddTransient<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IProductsRepository, ProductRepository>();
+            services.AddScoped<ICurrencyRepository, CurrencyRepository>();
+            services.AddScoped<IStockRepository, StockRepository>();
         }
     }
 }
