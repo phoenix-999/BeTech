@@ -1,6 +1,6 @@
 using System;
 
-namespace BeTech.Models
+namespace BeTech.ViewModels
 {
     public class ErrorViewModel
     {

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BeTech.Models;
+using BeTech.Data;
+using BeTech.ViewModels;
 
 namespace BeTech.Controllers
 {
