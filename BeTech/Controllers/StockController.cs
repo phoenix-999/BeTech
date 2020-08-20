@@ -79,7 +79,7 @@ namespace BeTech.Controllers
                 if (currency != default)
                 {
                     model.CurrentCurrency = currency;
-                    model.Sum = stock.StockProduct.Select(sp => sp.Product.Price * currency.Rate).Sum();
+                    model.Sum = stock.StockProduct.Select(sp => Convert.ToDecimal(sp.Count) * sp.Product.PriceInBaseCurrency / currency.Rate).Sum();
                 }
              }
             else
@@ -87,7 +87,7 @@ namespace BeTech.Controllers
                 var currency = _currencyRepository.GetBaseCurrency();
                 model.CurrentCurrency = currency;
                 model.CurrencyId = currency.CurrencyId;
-                model.Sum = stock.StockProduct.Select(sp => sp.Product.PriceInBaseCurrency).Sum();
+                model.Sum = stock.StockProduct.Select(sp => Convert.ToDecimal(sp.Count) * sp.Product.PriceInBaseCurrency).Sum();
             }
 
             return View(model);

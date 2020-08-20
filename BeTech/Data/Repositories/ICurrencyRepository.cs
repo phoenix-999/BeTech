@@ -81,7 +81,7 @@ namespace BeTech.Data.Repositories
             var baseCurrency = GetBaseCurrency();
             foreach (var product in _context.Products.Include(p => p.Currency))
             {
-                product.PriceInBaseCurrency = product.Price * product.Currency.Rate;
+                product.PriceInBaseCurrency = product.Price / product.Currency.Rate;
             }
             await _context.SaveChangesAsync();
         }

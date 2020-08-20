@@ -3,7 +3,7 @@
     <div class="col-6 m-auto">
         
         <form asp-controller="Stock" asp-action="EditStock" method="get">
-            <input type="hidden" asp-for="@Model.StockId" />
+            <input type="hidden" asp-for="@Model.StockId" name="stockId" />
             <div class="form-group mb-3 p-2">
                 <h4>Всего товаров на сумму @Model.Sum.ToString("F2") @Model.CurrentCurrency?.Code</h4>
                 <label asp-for="@Model.CurrencyId">Пересчитать остаток в валюте:</label>
