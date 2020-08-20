@@ -78,7 +78,15 @@ namespace BeTech.Data.Repositories
         public async Task<Product> AddProductAsync(string productName, decimal price, int categoryId, int currencyId, int[] stocksId)
         {
             var currentCurrency = _currencyRepository.Currencies.Where(c => c.CurrencyId == currencyId).Single();
-            
+
+
+            var barcodeValue = "";
+            for(int i = 0; i < 8; i++)
+            {
+                var rand = new Random();
+                barcodeValue += (char)rand.Next(97, 122);
+            }
+
             var product = new Product
             {
                 ProductName = productName,
@@ -86,7 +94,8 @@ namespace BeTech.Data.Repositories
                 CategoryId = categoryId,
                 CurrencyId = currencyId,
                 PriceInBaseCurrency = price * currentCurrency.Factor,
-                Barcode = CreateBarCode(DateTime.Now.Ticks.ToString())
+                BarcodeValue = barcodeValue,
+                Barcode = CreateBarCode(barcodeValue.ToString())
             };
 
             _context.Products.Add(product);
@@ -148,7 +157,7 @@ namespace BeTech.Data.Repositories
         {
             BarcodeLib.Barcode b = new BarcodeLib.Barcode();
             b.ImageFormat = ImageFormat.Png;
-            Image img = b.Encode(BarcodeLib.TYPE.CODE128, content, Color.Black, Color.White, 290, 120);
+            Image img = b.Encode(BarcodeLib.TYPE.CODE128, content, Color.Black, Color.White, 300, 100);
             
 
             ImageConverter imageConverter = new ImageConverter();

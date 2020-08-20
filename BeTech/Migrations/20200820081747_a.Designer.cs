@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BeTech.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200819170713_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200820081747_a")]
+    partial class a
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -56,7 +56,7 @@ namespace BeTech.Migrations
                             Factor = 1m,
                             IsBaseCurrencyType = true,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 19, 20, 7, 13, 244, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 20, 11, 17, 47, 467, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
@@ -65,7 +65,7 @@ namespace BeTech.Migrations
                             Factor = 1.1m,
                             IsBaseCurrencyType = false,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 19, 20, 7, 13, 247, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 20, 11, 17, 47, 470, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
@@ -74,7 +74,7 @@ namespace BeTech.Migrations
                             Factor = 0.28m,
                             IsBaseCurrencyType = false,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 19, 20, 7, 13, 247, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 20, 11, 17, 47, 470, DateTimeKind.Local).AddTicks(1754)
                         });
                 });
 
@@ -88,6 +88,10 @@ namespace BeTech.Migrations
                     b.Property<byte[]>("Barcode")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("BarcodeValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");

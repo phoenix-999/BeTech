@@ -4,14 +4,16 @@ using BeTech.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BeTech.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200820081225_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +56,7 @@ namespace BeTech.Migrations
                             Factor = 1m,
                             IsBaseCurrencyType = true,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 20, 11, 17, 47, 467, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 20, 11, 12, 25, 594, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
@@ -63,7 +65,7 @@ namespace BeTech.Migrations
                             Factor = 1.1m,
                             IsBaseCurrencyType = false,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 20, 11, 17, 47, 470, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 20, 11, 12, 25, 597, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
@@ -72,7 +74,7 @@ namespace BeTech.Migrations
                             Factor = 0.28m,
                             IsBaseCurrencyType = false,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 20, 11, 17, 47, 470, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 20, 11, 12, 25, 597, DateTimeKind.Local).AddTicks(1754)
                         });
                 });
 
@@ -87,9 +89,8 @@ namespace BeTech.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
-                    b.Property<string>("BarcodeValue")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("BarcodeValue")
+                        .HasColumnType("float");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");

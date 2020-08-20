@@ -65,6 +65,7 @@ namespace BeTech.Migrations
                     Deleted = table.Column<bool>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
                     CurrencyId = table.Column<int>(nullable: false),
+                    BarcodeValue = table.Column<double>(nullable: false),
                     Barcode = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
@@ -112,17 +113,17 @@ namespace BeTech.Migrations
             migrationBuilder.InsertData(
                 table: "Currencies",
                 columns: new[] { "CurrencyId", "Code", "Factor", "IsBaseCurrencyType", "Rate", "UpdateTime" },
-                values: new object[] { 1, "USD", 1m, true, 1m, new DateTime(2020, 8, 19, 20, 7, 13, 244, DateTimeKind.Local).AddTicks(1754) });
+                values: new object[] { 1, "USD", 1m, true, 1m, new DateTime(2020, 8, 20, 11, 12, 25, 594, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
                 columns: new[] { "CurrencyId", "Code", "Factor", "IsBaseCurrencyType", "Rate", "UpdateTime" },
-                values: new object[] { 2, "EURO", 1.1m, false, 1m, new DateTime(2020, 8, 19, 20, 7, 13, 247, DateTimeKind.Local).AddTicks(1754) });
+                values: new object[] { 2, "EURO", 1.1m, false, 1m, new DateTime(2020, 8, 20, 11, 12, 25, 597, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
                 columns: new[] { "CurrencyId", "Code", "Factor", "IsBaseCurrencyType", "Rate", "UpdateTime" },
-                values: new object[] { 3, "UAH", 0.28m, false, 1m, new DateTime(2020, 8, 19, 20, 7, 13, 247, DateTimeKind.Local).AddTicks(1754) });
+                values: new object[] { 3, "UAH", 0.28m, false, 1m, new DateTime(2020, 8, 20, 11, 12, 25, 597, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",

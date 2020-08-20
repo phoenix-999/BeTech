@@ -35,6 +35,9 @@ namespace BeTech.Models
         public Currency Currency { get; set; }
 
         [Required]
+        public string BarcodeValue { get; set; }
+
+        [Required]
         public byte[] Barcode { get; set; }
 
         public List<StockProduct> StockProduct { get; set; }
