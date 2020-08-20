@@ -137,20 +137,23 @@ namespace BeTech.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> ProductsInStock([Required] int stockId, StockProduct stockProduct)
+        public async Task<IActionResult> ProductsInStock([Required] int stockId, StockProduct[] stockProducts)
         {
             if (!ModelState.IsValid)
             {
-                var stockProducts = _stockRepository.StocksProducts
+                var currentStockProducts = _stockRepository.StocksProducts
                                     .Where(sp => sp.StockId == stockId)
                                     .Include(sp => sp.Stock)
                                     .Include(sp => sp.Product);
                 return View(stockProducts);
             }
 
-            await _stockRepository.UpdateStockProductAsync(stockProduct.StockId, stockProduct.ProductId, stockProduct.Count);
+            foreach (var sp in stockProducts)
+            {
+                await _stockRepository.UpdateStockProductAsync(sp.StockId, sp.ProductId, sp.Count);
+            }
 
-            return RedirectToAction(nameof(EditStock), new { stockId });
+            return RedirectToAction(nameof(ProductsInStock), new { stockId });
         }
 
 
