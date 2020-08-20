@@ -11,6 +11,7 @@ namespace BeTech.Data.Repositories
     {
         IQueryable<Stock> Stocks { get; }
         Task<Stock> AddStockAsync(string stockName, string address);
+        Task<Stock> UpdateStockAsync(int stockId, string stockName, string address, int[] products);
         Task<Stock> DeleteStockAsync(int stockId);
     }
 
@@ -36,6 +37,34 @@ namespace BeTech.Data.Repositories
                 Address = address
             };
             _context.Stocks.Add(stock);
+            await _context.SaveChangesAsync();
+            return stock;
+        }
+
+
+        public async Task<Stock> UpdateStockAsync(int stockId, string stockName, string address, int[] products)
+        {
+            var stock = _context.Stocks.Where(p => p.StockId == stockId).SingleOrDefault();
+            if (stock == null) return null;
+
+            stock.StockName = stockName;
+            stock.Address = address;
+
+            if (products != null)
+            {
+                var currentProducts = _context.StockProduct.Where(sp => sp.StockId == stockId).Select(sp => sp.ProductId).ToArray();
+                var addedProducts = products.Except(currentProducts);
+                var removeProducts = currentProducts.Except(products);
+                _context.StockProduct.RemoveRange(_context.StockProduct.Where(sp => sp.StockId == stock.StockId && removeProducts.Contains(sp.ProductId)));
+                if (addedProducts.Count() > 0)
+                {
+                    foreach (var id in addedProducts)
+                    {
+                        _context.StockProduct.Add(new StockProduct { StockId = stock.StockId, ProductId = id });
+                    }
+                }
+            }
+
             await _context.SaveChangesAsync();
             return stock;
         }

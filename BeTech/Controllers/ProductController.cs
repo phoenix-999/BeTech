@@ -196,13 +196,15 @@ namespace BeTech.Controllers
         {
             if (!ModelState.IsValid) return View(_viewModelHelper.GetUpdateProductViewModel(model));
 
-            await _productRepository.UpdateProductAsync(
+            var updateResult = await _productRepository.UpdateProductAsync(
                 productId: model.ProductId,
                 productName: model.ProductName,
                 price: model.Price,
                 categoryId: model.CategoryId,
                 currencyId: model.CurrencyId,
                 stocksId: model.SelectedStocks);
+
+            if (updateResult == null) return NotFound();
 
             return RedirectToAction(nameof(Products));
         }

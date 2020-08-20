@@ -1,10 +1,14 @@
 ﻿using BeTech.Data.Repositories;
 using BeTech.ViewModels.ProductModels;
+using BeTech.ViewModels.StockModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
+using ZXing.QrCode.Internal;
 
 namespace BeTech.ViewModels
 {
@@ -36,6 +40,17 @@ namespace BeTech.ViewModels
         {
             if (model == null) model = new UpdateProductViewModel();
             model = GetNewProductViewModel(model) as UpdateProductViewModel;
+
+            return model;
+        }
+
+
+        public UpdateStockViewModel GetUpdateStockViewModel(UpdateStockViewModel model = null)
+        {
+            if (model == null) model = new UpdateStockViewModel();
+
+            model.Products = _productRepository.Products;
+
 
             return model;
         }

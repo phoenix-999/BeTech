@@ -8,16 +8,21 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using BeTech.ViewModels;
 
 namespace BeTech.Controllers
 {
     public class StockController : Controller
     {
         private readonly IStockRepository _stockRepository;
+        private readonly IProductsRepository _productsRepository;
+        private readonly ViewModelHelper _viewModelHelper;
 
-        public StockController(IStockRepository stockRepository) 
+        public StockController(IStockRepository stockRepository, IProductsRepository productsRepository, ViewModelHelper viewModelHelper) 
         {
             _stockRepository = stockRepository;
+            _productsRepository = productsRepository;
+            _viewModelHelper = viewModelHelper;
         }
 
 
@@ -44,6 +49,48 @@ namespace BeTech.Controllers
         {
             if (!ModelState.IsValid) return View(model);
             await _stockRepository.AddStockAsync(stockName: model.StockName, address: model.Address);
+            return RedirectToAction(nameof(Stocks));
+        }
+
+
+        [HttpGet]
+        public IActionResult EditStock([Required] int stockId)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            var stock = _stockRepository.Stocks
+                            .Where(s => s.StockId == stockId)
+                            .Include(s => s.StockProduct).ThenInclude(sp => sp.Product)
+                            .SingleOrDefault();
+            if (stock == null) return NotFound();
+
+            var model = _viewModelHelper.GetUpdateStockViewModel();
+            model.StockId = stock.StockId;
+            model.StockName = stock.StockName;
+            model.Address = stock.Address;
+            model.ProductsInStock = stock.StockProduct.Select(sp => sp.Product);
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> EditStock(UpdateStockViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                model = _viewModelHelper.GetUpdateStockViewModel(model);
+                model.ProductsInStock = _productsRepository.Products.Where(p => model.SelectedProducts.Contains(p.ProductId));
+                return View(model);
+            }
+
+            var updateResult = await _stockRepository.UpdateStockAsync(
+                stockId: model.StockId,
+                stockName: model.StockName,
+                address: model.Address,
+                products: model.SelectedProducts
+                );
+            if (updateResult == null) return NotFound();
+
             return RedirectToAction(nameof(Stocks));
         }
 

@@ -64,7 +64,7 @@ namespace BeTech
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Product}/{action=Products}/{id?}");
+                    pattern: "{controller=Stock}/{action=Stocks}/{id?}");
             });
         }
     }

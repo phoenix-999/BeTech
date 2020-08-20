@@ -128,7 +128,14 @@ namespace BeTech.Data.Repositories
                 var addedStocks = stocksId.Except(currentStocks);
                 var removeStocks = currentStocks.Except(stocksId);
                 _context.StockProduct.RemoveRange(_context.StockProduct.Where(sp => removeStocks.Contains(sp.StockId)));
-                _context.StockProduct.AddRange(_context.StockProduct.Where(sp => addedStocks.Contains(sp.StockId)));
+
+                if (addedStocks.Count() > 0)
+                {
+                    foreach (var id in addedStocks)
+                    {
+                        _context.StockProduct.Add(new StockProduct { ProductId = product.ProductId, StockId = id });
+                    }
+                }
             }
 
             await _context.SaveChangesAsync();
