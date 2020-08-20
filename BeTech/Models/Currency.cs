@@ -9,24 +9,21 @@ namespace BeTech.Models
 {
     public class Currency
     {
-        public Currency()
-        {
-            IsBaseCurrencyType = false;
-        }
-
-
         public int CurrencyId { get; set; }
 
+        [Required]
+        [MaxLength(50)]
+        public string CurrencyName { get; set; }
+
+        [Required]
         [MaxLength(4)]
         public string Code { get; set; }
 
         [Column(TypeName = "money")]
         public decimal Rate { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal Factor { get; set; }
-
         public DateTime UpdateTime { get; set; }
+
         public bool IsBaseCurrencyType { get; set; }
 
     }

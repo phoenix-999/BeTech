@@ -13,9 +13,9 @@ namespace BeTech.Migrations
                 {
                     CurrencyId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(maxLength: 4, nullable: true),
+                    CurrencyName = table.Column<string>(maxLength: 50, nullable: false),
+                    Code = table.Column<string>(maxLength: 4, nullable: false),
                     Rate = table.Column<decimal>(type: "money", nullable: false),
-                    Factor = table.Column<decimal>(type: "money", nullable: false),
                     UpdateTime = table.Column<DateTime>(nullable: false),
                     IsBaseCurrencyType = table.Column<bool>(nullable: false)
                 },
@@ -65,7 +65,7 @@ namespace BeTech.Migrations
                     Deleted = table.Column<bool>(nullable: false),
                     CategoryId = table.Column<int>(nullable: false),
                     CurrencyId = table.Column<int>(nullable: false),
-                    BarcodeValue = table.Column<double>(nullable: false),
+                    BarcodeValue = table.Column<string>(nullable: false),
                     Barcode = table.Column<byte[]>(nullable: false)
                 },
                 constraints: table =>
@@ -112,18 +112,18 @@ namespace BeTech.Migrations
 
             migrationBuilder.InsertData(
                 table: "Currencies",
-                columns: new[] { "CurrencyId", "Code", "Factor", "IsBaseCurrencyType", "Rate", "UpdateTime" },
-                values: new object[] { 1, "USD", 1m, true, 1m, new DateTime(2020, 8, 20, 11, 12, 25, 594, DateTimeKind.Local).AddTicks(1754) });
+                columns: new[] { "CurrencyId", "Code", "CurrencyName", "IsBaseCurrencyType", "Rate", "UpdateTime" },
+                values: new object[] { 1, "USD", "Американский долла", true, 1m, new DateTime(2020, 8, 19, 15, 37, 14, 303, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
-                columns: new[] { "CurrencyId", "Code", "Factor", "IsBaseCurrencyType", "Rate", "UpdateTime" },
-                values: new object[] { 2, "EURO", 1.1m, false, 1m, new DateTime(2020, 8, 20, 11, 12, 25, 597, DateTimeKind.Local).AddTicks(1754) });
+                columns: new[] { "CurrencyId", "Code", "CurrencyName", "IsBaseCurrencyType", "Rate", "UpdateTime" },
+                values: new object[] { 2, "EUR", "Евро", false, 1m, new DateTime(2020, 8, 19, 15, 37, 14, 307, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.InsertData(
                 table: "Currencies",
-                columns: new[] { "CurrencyId", "Code", "Factor", "IsBaseCurrencyType", "Rate", "UpdateTime" },
-                values: new object[] { 3, "UAH", 0.28m, false, 1m, new DateTime(2020, 8, 20, 11, 12, 25, 597, DateTimeKind.Local).AddTicks(1754) });
+                columns: new[] { "CurrencyId", "Code", "CurrencyName", "IsBaseCurrencyType", "Rate", "UpdateTime" },
+                values: new object[] { 3, "UAH", "Гривна", false, 1m, new DateTime(2020, 8, 19, 15, 37, 14, 307, DateTimeKind.Local).AddTicks(1754) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",

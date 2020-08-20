@@ -27,11 +27,14 @@ namespace BeTech.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Code")
+                        .IsRequired()
                         .HasColumnType("nvarchar(4)")
                         .HasMaxLength(4);
 
-                    b.Property<decimal>("Factor")
-                        .HasColumnType("money");
+                    b.Property<string>("CurrencyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
 
                     b.Property<bool>("IsBaseCurrencyType")
                         .HasColumnType("bit");
@@ -51,28 +54,28 @@ namespace BeTech.Migrations
                         {
                             CurrencyId = 1,
                             Code = "USD",
-                            Factor = 1m,
+                            CurrencyName = "Американский долла",
                             IsBaseCurrencyType = true,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 20, 11, 31, 1, 219, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 19, 15, 37, 14, 303, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
                             CurrencyId = 2,
-                            Code = "EURO",
-                            Factor = 1.1m,
+                            Code = "EUR",
+                            CurrencyName = "Евро",
                             IsBaseCurrencyType = false,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 20, 11, 31, 1, 222, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 19, 15, 37, 14, 307, DateTimeKind.Local).AddTicks(1754)
                         },
                         new
                         {
                             CurrencyId = 3,
                             Code = "UAH",
-                            Factor = 0.28m,
+                            CurrencyName = "Гривна",
                             IsBaseCurrencyType = false,
                             Rate = 1m,
-                            UpdateTime = new DateTime(2020, 8, 20, 11, 31, 1, 222, DateTimeKind.Local).AddTicks(1754)
+                            UpdateTime = new DateTime(2020, 8, 19, 15, 37, 14, 307, DateTimeKind.Local).AddTicks(1754)
                         });
                 });
 

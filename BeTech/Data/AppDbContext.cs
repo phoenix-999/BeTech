@@ -39,27 +39,27 @@ namespace BeTech.Data
                 new Currency
                 {
                     CurrencyId = 1,
+                    CurrencyName = "Американский доллар",
                     Code = "USD",
                     Rate = 1,
-                    UpdateTime = DateTime.Now,
-                    Factor = 1,
+                    UpdateTime = DateTime.Now.AddDays(-1),
                     IsBaseCurrencyType = true
                 },
                 new Currency
                 {
                     CurrencyId = 2,
-                    Code = "EURO",
+                    CurrencyName = "Евро",
+                    Code = "EUR",
                     Rate = 1,
-                    Factor = 1.1m,
-                    UpdateTime = DateTime.Now
+                    UpdateTime = DateTime.Now.AddDays(-1)
                 },
                 new Currency
                 {
                     CurrencyId = 3,
+                    CurrencyName = "Гривна",
                     Code = "UAH",
                     Rate = 1,
-                    Factor = 0.28m,
-                    UpdateTime = DateTime.Now
+                    UpdateTime = DateTime.Now.AddDays(-1)
                 }
             };
             builder.HasData(defaultData);

@@ -29,6 +29,9 @@
                         <li class="nav-item bg-primary m-1">
                             <a class="nav-link text-white" asp-area="" asp-controller="Product" asp-action="Products">Товары</a>
                         </li>
+                        <li class="nav-item bg-primary m-1">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Currency" asp-action="Currencies">Валюты</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -50,6 +53,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
     <script src="~/lib/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+    <script src="~/lib/currency.js"></script>
     @RenderSection("ScriptsDown", required: false)
     @await Html.PartialAsync("_ValidationScriptsPartial");
 </body>

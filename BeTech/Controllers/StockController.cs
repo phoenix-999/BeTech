@@ -79,7 +79,7 @@ namespace BeTech.Controllers
                 if (currency != default)
                 {
                     model.CurrentCurrency = currency;
-                    model.Sum = stock.StockProduct.Select(sp => sp.Product.Price * currency.Factor).Sum();
+                    model.Sum = stock.StockProduct.Select(sp => sp.Product.Price * currency.Rate).Sum();
                 }
              }
             else

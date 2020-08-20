@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Currency>
+<h3>Валюты</h3>
+<div class="col-12">
+    <a class="btn btn-secondary float-right" asp-controller="Currency" asp-action="AddCurrency">Добавить</a>
+</div>
+
+<table class="table-bordered table-striped mt-3">
+    <thead class="text-center">
+        <tr>
+            <th>Название</th>
+            <th>Код</th>
+            <th>Курс</th>
+            <th>Дата обновления</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var currency in Model)
+        {
+            <tr>
+                <td>@currency.CurrencyName</td>
+                <td>@currency.Code</td>
+                <td>@currency.Rate.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</td>
+                <td class="text-right">@currency.UpdateTime.ToShortDateString()</td>
+                <td class="text-center">
+                    <a class="btn btn-danger" asp-action="EditCurrency" asp-controller="Currency" asp-route-productId="@currency.CurrencyId">Изменить</a>
+                    <a class="btn btn-danger" asp-action="DeleteCurrency" asp-controller="Currency" asp-route-productId="@currency.CurrencyId">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
