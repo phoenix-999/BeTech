@@ -14,7 +14,7 @@ namespace BeTech.Data
         public AppDbContext(DbContextOptions<AppDbContext> options)
             :base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
 
 
@@ -29,6 +29,7 @@ namespace BeTech.Data
         {
             modelBuilder.Entity<Currency>(CurrencyConfig);
             modelBuilder.Entity<StockProduct>(StockProductConfig);
+            modelBuilder.Entity<Product>(ProductConfig);
         }
 
 

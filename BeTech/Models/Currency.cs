@@ -26,6 +26,8 @@ namespace BeTech.Models
 
         public bool IsBaseCurrencyType { get; set; }
 
+        public bool Deleted { get; set; }
+
     }
 
 }

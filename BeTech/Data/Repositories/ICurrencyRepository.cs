@@ -13,7 +13,11 @@ namespace BeTech.Data.Repositories
         IQueryable<Currency> Currencies { get; }
         Currency GetBaseCurrency();
         bool NeedUpdateCurrency();
-        Task UpdateRatesFromUNB(CurrencyData[] currencyData);
+        Task UpdateRatesFromUNBAsync(CurrencyData[] currencyData);
+        Task UpdateBasePricesAsync();
+        Task<Currency> AddCurrencyAsync(string name, string code, decimal rate);
+        Task<Currency> UpdateCurrencyAsync(int currencyId, string name, string code, decimal rate);
+        Task<Currency> DeleteCurrencyAsync(int currencyId);
     }
 
 
@@ -26,7 +30,7 @@ namespace BeTech.Data.Repositories
             _context = context;
         }
 
-        public IQueryable<Currency> Currencies => _context.Currencies.AsNoTracking();
+        public IQueryable<Currency> Currencies => _context.Currencies.AsNoTracking().Where(c => c.Deleted != true);
 
 
         public Currency GetBaseCurrency()
@@ -43,7 +47,7 @@ namespace BeTech.Data.Repositories
             return false;
         }
 
-        public async Task UpdateRatesFromUNB(CurrencyData[] currencyData)
+        public async Task UpdateRatesFromUNBAsync(CurrencyData[] currencyData)
         {
             var existsCurrencies = _context.Currencies;
 
@@ -63,9 +67,64 @@ namespace BeTech.Data.Repositories
 
             var uah = existsCurrencies.Where(c => c.Code == "UAH").SingleOrDefault();
             if (uah != null)
+            {
                 uah.Rate = 1 / baseValue;
+                uah.UpdateTime = DateTime.Now;
+            }
 
             await _context.SaveChangesAsync();
+            await UpdateBasePricesAsync();
+        }
+
+        public async Task UpdateBasePricesAsync()
+        {
+            var baseCurrency = GetBaseCurrency();
+            foreach (var product in _context.Products.Include(p => p.Currency))
+            {
+                product.PriceInBaseCurrency = product.Price * product.Currency.Rate;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<Currency> AddCurrencyAsync(string name, string code, decimal rate)
+        {
+            var currency = new Currency
+            {
+                CurrencyName = name,
+                Code = code,
+                Rate = rate,
+                UpdateTime = DateTime.Now
+            };
+
+            _context.Currencies.Add(currency);
+            await _context.SaveChangesAsync();
+            return currency;
+        }
+
+        public async Task<Currency> UpdateCurrencyAsync(int currencyId, string name, string code, decimal rate)
+        {
+            var currency = _context.Currencies.Where(c => c.CurrencyId == currencyId).SingleOrDefault();
+            if (currency == null) return null;
+
+            currency.CurrencyName = name;
+            currency.Code = code;
+            currency.Rate = rate;
+            currency.UpdateTime = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+            await UpdateBasePricesAsync();
+            return currency;
+        }
+
+
+        public async Task<Currency> DeleteCurrencyAsync(int currencyId)
+        {
+            var currency = _context.Currencies.Where(c => c.CurrencyId == currencyId).SingleOrDefault();
+            if (currency == null) return null;
+
+            currency.Deleted = true;
+            await _context.SaveChangesAsync();
+            return currency;
         }
     }
 

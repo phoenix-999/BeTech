@@ -20,7 +20,7 @@
     }
 
     function sendRate(data) {
-        $.ajax('Currency/UpdateCurrencies', {
+        $.ajax('Currency/UpdateRates', {
             type: "post",
             data: { currencyData: data },
             dataType: "json",

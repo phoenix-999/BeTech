@@ -1,0 +1,7 @@
+﻿@model DeleteCurrencyViewModel
+<h3>Вы уверены, что хотите удалить валюту "@Model.CurrencyName"</h3>
+<form asp-action="DeleteCurrency" asp-controller="Currency" method="post">
+    <input type="hidden" asp-for="@Model.CurrencyId" />
+    <input type="submit" value="Да" class="btn btn-danger" />
+    <a class="btn btn-secondary" asp-action="Currencies" asp-controller="Currency">Нет</a>
+</form>

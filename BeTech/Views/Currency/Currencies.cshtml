@@ -23,8 +23,8 @@
                 <td>@currency.Rate.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)</td>
                 <td class="text-right">@currency.UpdateTime.ToShortDateString()</td>
                 <td class="text-center">
-                    <a class="btn btn-danger" asp-action="EditCurrency" asp-controller="Currency" asp-route-productId="@currency.CurrencyId">Изменить</a>
-                    <a class="btn btn-danger" asp-action="DeleteCurrency" asp-controller="Currency" asp-route-productId="@currency.CurrencyId">Удалить</a>
+                    <a class="btn btn-danger" asp-action="EditCurrency" asp-controller="Currency" asp-route-currencyId="@currency.CurrencyId">Изменить</a>
+                    <a class="btn btn-danger" asp-action="DeleteCurrency" asp-controller="Currency" asp-route-currencyId="@currency.CurrencyId">Удалить</a>
                 </td>
             </tr>
         }

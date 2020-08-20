@@ -22,7 +22,6 @@ namespace BeTech.Data.Repositories
         Task<Product> AddProductAsync(string productName, decimal price, int categoryId, int currencyId, int[] stocksId);
         Task<Product> UpdateProductAsync(int productId, string productName, decimal price, int categoryId, int currencyId, int[] stocksId);
         Task<Product> DeleteProductAsync(int productId);
-        Task UpdateBasePrices();
     }
 
 
@@ -153,17 +152,6 @@ namespace BeTech.Data.Repositories
             _context.Products.Update(product);
             await _context.SaveChangesAsync();
             return product;
-        }
-
-
-        public async Task UpdateBasePrices()
-        {
-            var baseCurrency = _currencyRepository.GetBaseCurrency();
-            foreach(var product in _context.Products.Include(p => p.Currency))
-            {
-                product.PriceInBaseCurrency = product.Price * product.Currency.Rate;
-            }
-            await _context.SaveChangesAsync();
         }
 
 
