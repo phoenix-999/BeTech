@@ -50,6 +50,7 @@ namespace BeTech.ViewModels
             if (model == null) model = new UpdateStockViewModel();
 
             model.Products = _productRepository.Products;
+            model.Currencies = _currencyRepository.Currencies;
 
 
             return model;

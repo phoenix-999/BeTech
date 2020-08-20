@@ -1,0 +1,41 @@
+﻿@model IEnumerable<StockProduct>
+
+<h3>Товары на складе</h3>
+<form method="post" asp-controller="Stock" asp-action="ProductsInStock">
+    <input type="hidden" name="stockId" value="@ViewBag.stockId" />
+    <table class="table-bordered table-striped mt-3">
+        <thead class="text-center">
+            <tr>
+                <th>Товар</th>
+                <th>Склад</th>
+                <th>Кол-во товара</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var sp in Model)
+            {
+
+                <tr>
+                    <td>
+                        <input type="hidden" name="ProductId" asp-for="@sp.ProductId" />
+                        <input value="@sp.Product.ProductName" disabled />
+                    </td>
+                    <td>
+                        <input type="hidden" name="StockId" asp-for="@sp.StockId" />
+                        <input value="@sp.Stock.StockName" disabled />
+                    </td>
+                    <td class="text-right">
+                        <input asp-for="@sp.Count" name="Count" value="@sp.Count?.ToString(System.Globalization.CultureInfo.InvariantCulture)" />
+                    </td>
+                    <td>
+                        <input type="submit" value="Применить" class="btn btn-primary" />
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</form>
+
+

@@ -25,5 +25,13 @@ namespace BeTech.ViewModels.StockModels
         public IEnumerable<Product> ProductsInStock { get; set; }
 
         public int[] SelectedProducts { get; set; }
+
+        public IEnumerable<Currency> Currencies { get; set; }
+
+        public Currency CurrentCurrency { get; set; }
+
+        public int CurrencyId { get; set; }
+
+        public decimal Sum { get; set; }
     }
 }

@@ -10,9 +10,11 @@ namespace BeTech.Data.Repositories
     public interface IStockRepository
     {
         IQueryable<Stock> Stocks { get; }
+        IQueryable<StockProduct> StocksProducts { get; }
         Task<Stock> AddStockAsync(string stockName, string address);
         Task<Stock> UpdateStockAsync(int stockId, string stockName, string address, int[] products);
         Task<Stock> DeleteStockAsync(int stockId);
+        Task<StockProduct> UpdateStockProductAsync(int stockId, int productId, double? count);
     }
 
 
@@ -27,6 +29,8 @@ namespace BeTech.Data.Repositories
 
 
         public IQueryable<Stock> Stocks => _context.Stocks.AsNoTracking().Where(s => s.Deleted != true);
+
+        public IQueryable<StockProduct> StocksProducts => _context.StockProduct;
 
 
         public async Task<Stock> AddStockAsync(string stockName, string address)
@@ -78,6 +82,17 @@ namespace BeTech.Data.Repositories
             _context.Entry(stock).Property(s => s.Deleted).IsModified = true;
             await _context.SaveChangesAsync();
             return stock;
+        }
+
+
+        public async Task<StockProduct> UpdateStockProductAsync(int stockId, int productId, double? count)
+        {
+            var stockproduct = _context.StockProduct.Where(sp => sp.StockId == stockId && sp.ProductId == productId).SingleOrDefault();
+            if (stockproduct == null) return null;
+            stockproduct.Count = count;
+            _context.StockProduct.Update(stockproduct);
+            await _context.SaveChangesAsync();
+            return stockproduct;
         }
     }
 }

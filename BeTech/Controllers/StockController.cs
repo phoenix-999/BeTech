@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using BeTech.ViewModels;
+using BeTech.Models;
 
 namespace BeTech.Controllers
 {
@@ -16,13 +17,15 @@ namespace BeTech.Controllers
     {
         private readonly IStockRepository _stockRepository;
         private readonly IProductsRepository _productsRepository;
+        private readonly ICurrencyRepository _currencyRepository;
         private readonly ViewModelHelper _viewModelHelper;
 
-        public StockController(IStockRepository stockRepository, IProductsRepository productsRepository, ViewModelHelper viewModelHelper) 
+        public StockController(IStockRepository stockRepository, IProductsRepository productsRepository, ViewModelHelper viewModelHelper, ICurrencyRepository currencyRepository) 
         {
             _stockRepository = stockRepository;
             _productsRepository = productsRepository;
             _viewModelHelper = viewModelHelper;
+            _currencyRepository = currencyRepository;
         }
 
 
@@ -54,7 +57,7 @@ namespace BeTech.Controllers
 
 
         [HttpGet]
-        public IActionResult EditStock([Required] int stockId)
+        public IActionResult EditStock([Required] int stockId, int? currencyId)
         {
             if (!ModelState.IsValid) return BadRequest();
             var stock = _stockRepository.Stocks
@@ -68,13 +71,31 @@ namespace BeTech.Controllers
             model.StockName = stock.StockName;
             model.Address = stock.Address;
             model.ProductsInStock = stock.StockProduct.Select(sp => sp.Product);
+            if (currencyId.HasValue)
+            {
+                model.CurrencyId = currencyId.Value;
+                
+                var currency = _currencyRepository.Currencies.Where(c => c.CurrencyId == currencyId).SingleOrDefault();
+                if (currency != default)
+                {
+                    model.CurrentCurrency = currency;
+                    model.Sum = stock.StockProduct.Select(sp => sp.Product.Price * currency.Factor).Sum();
+                }
+             }
+            else
+            {
+                var currency = _currencyRepository.GetBaseCurrency();
+                model.CurrentCurrency = currency;
+                model.CurrencyId = currency.CurrencyId;
+                model.Sum = stock.StockProduct.Select(sp => sp.Product.PriceInBaseCurrency).Sum();
+            }
 
             return View(model);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> EditStock(UpdateStockViewModel model)
+        public async Task<IActionResult> EditStock(UpdateStockViewModel model, bool? getProducts)
         {
             if (!ModelState.IsValid)
             {
@@ -91,7 +112,45 @@ namespace BeTech.Controllers
                 );
             if (updateResult == null) return NotFound();
 
+            if(getProducts == true)
+            {
+                return RedirectToAction(nameof(ProductsInStock), new { stockId = model.StockId});
+            }
+
             return RedirectToAction(nameof(Stocks));
+        }
+
+        [HttpGet]
+        public IActionResult ProductsInStock([Required]int stockId)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+            bool existsStock = _stockRepository.Stocks.Where(s => s.StockId == stockId).Any();
+            if (!existsStock) return NotFound();
+
+            var stockProducts = _stockRepository.StocksProducts
+                                    .Where(sp => sp.StockId == stockId)
+                                    .Include(sp => sp.Stock)
+                                    .Include(sp => sp.Product);
+            ViewBag.stockId = stockId;
+            return View(stockProducts);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProductsInStock([Required] int stockId, StockProduct stockProduct)
+        {
+            if (!ModelState.IsValid)
+            {
+                var stockProducts = _stockRepository.StocksProducts
+                                    .Where(sp => sp.StockId == stockId)
+                                    .Include(sp => sp.Stock)
+                                    .Include(sp => sp.Product);
+                return View(stockProducts);
+            }
+
+            await _stockRepository.UpdateStockProductAsync(stockProduct.StockId, stockProduct.ProductId, stockProduct.Count);
+
+            return RedirectToAction(nameof(EditStock), new { stockId });
         }
 
 
