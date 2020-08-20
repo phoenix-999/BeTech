@@ -12,7 +12,7 @@
         <div class="form-group mb-3 p-2">
             <label asp-for="@Model.Price">Цена</label>
             <span class="text-danger" asp-validation-for="@Model.Price"></span>
-            <input asp-for="@Model.Price" value="@Model.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)" class="form-control"  />
+            <input asp-for="@Model.Price" value="@Model.Price.ToString(System.Globalization.CultureInfo.InvariantCulture)" class="form-control" />
         </div>
         <div class="form-group mb-3 p-2">
             <label asp-for="@Model.CurrencyId">Валюта</label>
@@ -32,13 +32,17 @@
         </div>
         <div class="form-group mb-3 p-2">
             <span class="text-danger" asp-validation-for="@Model.SelectedStocks"></span>
-            <select class="duallistbox" multiple="multiple"  asp-for="@Model.SelectedStocks">
-                @foreach(var stock in Model.Stocks)
+            <select class="duallistbox" multiple="multiple" asp-for="@Model.SelectedStocks">
+                @foreach (var stock in Model.Stocks)
                 {
-                    bool isSelected = Model.CurrentStocks.Select(cs => cs.StockId).Contains(stock.StockId);
+                    bool isSelected = Model.CurrentStocks?.Select(cs => cs.StockId)?.Contains(stock.StockId) ?? false;
                     <option value="@stock.StockId" selected="@isSelected">@stock.StockName</option>
                 }
             </select>
+        </div>
+        <div class="form-group mb-3 p-2 text-center">
+            <input type="hidden" asp-for="@Model.Barcode" />
+            <img src="data:image/png;base64, @Convert.ToBase64String(Model.Barcode)" />
         </div>
         <input type="submit" value="Применить" class="btn btn-primary col-12" />
     </form>

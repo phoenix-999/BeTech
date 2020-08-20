@@ -176,6 +176,7 @@ namespace BeTech.Controllers
             var model = new UpdateProductViewModel()
             {
                 ProductId = product.ProductId,
+                Barcode = product.Barcode,
                 CategoryId = product.CategoryId,
                 CurrencyId = product.CurrencyId,
                 CurrentStocks = product.StockProduct.Select(sp => sp.Stock).ToList(),

@@ -32,7 +32,6 @@
             <td class="text-center">
                 <a class="btn btn-secondary" asp-action="EditProduct" asp-controller="Product" asp-route-productId="@product.ProductId">Изменить</a>
                 <a class="btn btn-danger" asp-action="DeleteProduct" asp-controller="Product" asp-route-productId="@product.ProductId">Удалить</a>
-                <img src="data:image/png;base64, @Convert.ToBase64String(product.Barcode)" />
             </td>
         </tr>
         }

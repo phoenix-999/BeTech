@@ -80,12 +80,7 @@ namespace BeTech.Data.Repositories
             var currentCurrency = _currencyRepository.Currencies.Where(c => c.CurrencyId == currencyId).Single();
 
 
-            var barcodeValue = "";
-            for(int i = 0; i < 8; i++)
-            {
-                var rand = new Random();
-                barcodeValue += (char)rand.Next(97, 122);
-            }
+            var barcodeValue = GetBarcodeValue(8);
 
             var product = new Product
             {
@@ -163,6 +158,25 @@ namespace BeTech.Data.Repositories
             ImageConverter imageConverter = new ImageConverter();
             byte[] result = (byte[])imageConverter.ConvertTo(img, typeof(byte[]));
             return result;
+        }
+
+
+        private string GetBarcodeValue(int length)
+        {
+            var barcodeValue = "";
+            for (int i = 0; i < length; i++)
+            {
+                var rand = new Random();
+                barcodeValue += (char)rand.Next(97, 122);
+            }
+
+            var exists = _context.Products.AsNoTracking().Where(p => p.BarcodeValue == barcodeValue).Any();
+            if(exists)
+            {
+                barcodeValue = GetBarcodeValue(length);
+            }
+
+            return barcodeValue;
         }
     }
 }

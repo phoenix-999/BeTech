@@ -81,6 +81,10 @@ namespace BeTech.Data
                 .HasForeignKey(sp => sp.StockId);
         }
 
+        protected virtual void ProductConfig(EntityTypeBuilder<Product> builder)
+        {
+            builder.HasIndex(p => p.BarcodeValue).IsUnique();
 
+        }
     }
 }

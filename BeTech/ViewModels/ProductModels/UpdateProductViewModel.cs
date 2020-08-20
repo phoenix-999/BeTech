@@ -12,6 +12,8 @@ namespace BeTech.ViewModels.ProductModels
         [Required]
         public int ProductId { get; set; }
 
+        public byte[] Barcode { get; set; }
+
         public Currency CurrentCurrency { get; set; }
         public ProductCategory CurrentCategory { get; set; }
     }

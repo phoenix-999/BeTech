@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BeTech.Data;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
